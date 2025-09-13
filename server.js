@@ -10,7 +10,6 @@ const cartRoutes = require('./routes/cart');
 
 // Create express app
 const app = express();
-
 // Connect to Database
 connectDB();
 
