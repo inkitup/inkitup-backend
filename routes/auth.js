@@ -45,8 +45,8 @@ passport.use(
       } catch (error) {
         return done(error, false);
       }
-    }
-  )
+    },
+  ),
 );
 
 // Register route
@@ -124,7 +124,7 @@ router.get("/user", auth, async (req, res) => {
 // Google Authentication Routes
 router.get(
   "/google",
-  passport.authenticate("google", { scope: ["profile", "email"] })
+  passport.authenticate("google", { scope: ["profile", "email"] }),
 );
 
 router.get(
@@ -137,8 +137,10 @@ router.get(
     });
 
     // Redirect to frontend with token
-    res.redirect(`http://localhost:3000/oauth-callback?token=${token}`);
-  }
+    res.redirect(
+      `${process.env.FRONTEND_URL || "http://localhost:3000"}/oauth-callback?token=${token}`,
+    );
+  },
 );
 
 // Add token verification route

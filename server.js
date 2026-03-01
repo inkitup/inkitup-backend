@@ -3,10 +3,10 @@ const cors = require("cors");
 const connectDB = require("./config/db");
 require("dotenv").config();
 const passport = require("passport");
-const imageRoutes = require('./routes/imageRoutes');
-const customizationRoutes = require('./routes/customizationRoutes');
-const cartRoutes = require('./routes/cart');
-
+const imageRoutes = require("./routes/imageRoutes");
+const customizationRoutes = require("./routes/customizationRoutes");
+const cartRoutes = require("./routes/cart");
+const paymentRoutes = require("./routes/payment");
 
 // Create express app
 const app = express();
@@ -15,8 +15,8 @@ connectDB();
 
 // Middleware
 app.use(cors());
-app.use(express.json({ limit: '10mb' }));
-app.use(express.urlencoded({ limit: '10mb', extended: true }));
+app.use(express.json({ limit: "10mb" }));
+app.use(express.urlencoded({ limit: "10mb", extended: true }));
 // Passport initialization (must be before routes)
 app.use(passport.initialize());
 
@@ -24,9 +24,10 @@ require("./config/passport");
 
 // Routes
 app.use("/api/auth", require("./routes/auth"));
-app.use('/images', imageRoutes);
-app.use('/customizations', customizationRoutes);
-app.use('/api', cartRoutes); 
+app.use("/images", imageRoutes);
+app.use("/customizations", customizationRoutes);
+app.use("/api", cartRoutes);
+app.use("/api/payment", paymentRoutes);
 
 // Simple test route
 app.get("/test", (req, res) => {
