@@ -22,8 +22,8 @@ passport.use(
         if (!user) {
           user = new User({
             googleId: profile.id,
-            firstName: profile.firstName,
-            lastName: profile.lastName,
+            firstName: profile.name.givenName || "User",
+            lastName: profile.name.familyName || "",
             email: profile.emails[0].value,
             profileImage: profile.photos[0]?.value || "",
           });
