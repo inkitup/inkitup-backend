@@ -38,11 +38,25 @@ app.get("/test", (req, res) => {
 });
 
 // 🔥 ===== SERVE REACT BUILD (Production) =====
-app.use(express.static(path.join(__dirname, "build")));
+// Only serve static files if build directory exists
+const buildPath = path.join(__dirname, "build");
+const fs = require("fs");
+if (fs.existsSync(buildPath)) {
+  app.use(express.static(buildPath));
 
-app.get("*", (req, res) => {
-  res.sendFile(path.join(__dirname, "build", "index.html"));
-});
+  // Serve React app for all non-API routes
+  app.get("*", (req, res) => {
+    // Don't serve HTML for API routes
+    if (
+      req.path.startsWith("/api") ||
+      req.path.startsWith("/images") ||
+      req.path.startsWith("/customizations")
+    ) {
+      return res.status(404).json({ message: "Route not found" });
+    }
+    res.sendFile(path.join(buildPath, "index.html"));
+  });
+}
 
 // Error handler
 app.use((err, req, res, next) => {
