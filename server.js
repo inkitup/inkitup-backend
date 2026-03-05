@@ -46,14 +46,6 @@ if (fs.existsSync(buildPath)) {
 
   // Serve React app for all non-API routes
   app.get("*", (req, res) => {
-    // Don't serve HTML for API routes
-    if (
-      req.path.startsWith("/api") ||
-      req.path.startsWith("/images") ||
-      req.path.startsWith("/customizations")
-    ) {
-      return res.status(404).json({ message: "Route not found" });
-    }
     res.sendFile(path.join(buildPath, "index.html"));
   });
 }
